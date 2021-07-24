@@ -1,0 +1,38 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<string>
+#include<map>
+#include<math.h>
+#include<sstream>
+using namespace std;
+
+int main() {
+	int a, b;
+	while (cin >> a >> b) {
+		if (a == 0 && b == 0) {
+			break;
+		}
+		int i = 0, j = 0, k = 0, count = 0;
+		while (a || b) {
+			i = a % 10;
+			j = b % 10;
+			k += i + j;
+			if (k > 9) {
+				count++;
+			}
+			a = a / 10;
+			b = b / 10;
+			k = k / 10;
+		}
+		if (count == 0) {
+			cout << "No carry operation." << endl;
+		}
+		if (count == 1) {
+			cout << "1 carry operation." << endl;
+		}
+		if (count > 1) {
+			cout << count << " carry operations." << endl;
+		}
+	}
+}
