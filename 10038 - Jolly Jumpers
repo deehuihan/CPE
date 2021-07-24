@@ -1,0 +1,39 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<string>
+#include<map>
+#include<math.h>
+#include<sstream>
+using namespace std;
+
+int main() {
+	int n;
+	while (cin >> n) {
+		int number;
+		vector<int> nums;
+		for (int i = 0; i < n; i++) {
+			cin >> number;
+			nums.push_back(number);
+		}
+		vector<bool> count;
+		for (int i = 0; i < n; i++) {
+			count.push_back(0);
+		}
+		int k = 1;
+		for (int i = 1; i < n; i++) {
+			int temp = abs(nums[i] - nums[i - 1]);
+			if (temp == 0 || temp > n || count[temp]) {
+				k = 0;
+				break;
+			}
+			count[temp] = 1;
+		}
+		if (k) {
+			cout << "Jolly" << endl;
+		}
+		else {
+			cout << "Not jolly" << endl;
+		}
+	}
+}
