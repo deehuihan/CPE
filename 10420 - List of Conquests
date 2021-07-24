@@ -1,0 +1,23 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<string>
+#include<map>
+#include<math.h>
+#include<sstream>
+using namespace std;
+
+int main() {
+	int t;
+	cin >> t;
+	map<string, int> record;
+	string country, temp;
+	for (int i = 0; i < t; i++) {
+		cin >> country;
+		getline(cin, temp);
+		record[country]++;
+	}
+	for (auto itr = record.begin(); itr != record.end(); itr++) {
+		cout << itr->first << " " << itr->second << endl;
+	}
+}
