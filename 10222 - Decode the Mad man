@@ -1,0 +1,26 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<string>
+#include<map>
+#include<math.h>
+#include<sstream>
+using namespace std;
+
+int main() {
+	string word, keyboard = "`1234567890-=qwertyuiop[]\\asdfghjkl;'zxcvbnm,./";
+	int pos = 0;
+	string arr[100];
+	getline(cin, word);
+	for (int i = 0; i < word.length(); i++) {
+		word[i] = tolower(word[i]);
+		if (word[i] == ' ') {
+			arr[i] = " ";
+		}
+		else {
+			pos = keyboard.find(word[i]);
+			arr[i] = keyboard[pos - 2];
+		}
+		cout << arr[i];
+	}
+}
