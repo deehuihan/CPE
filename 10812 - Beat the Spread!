@@ -1,0 +1,25 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<string>
+#include<map>
+#include<math.h>
+#include<sstream>
+using namespace std;
+
+int main() {
+	int t;
+	cin >> t;
+	while (t--) {
+		int a, b;
+		cin >> a >> b;
+		int s = (a + b) / 2;
+		int d = (a - b) / 2;
+		if (s + d == a && s - d == b && d > 0){
+			cout << s << " " << d << endl;
+		}
+		else {
+			cout << "impossible" << endl;
+		}
+	}
+}
