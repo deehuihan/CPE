@@ -1,0 +1,28 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<string>
+#include<map>
+#include<math.h>
+#include<sstream>
+using namespace std;
+
+int main() {
+	int pos = 0;
+	string sentences[101];
+	int longest = 0;
+	while (getline(cin, sentences[pos])) {
+		if (sentences[pos].size() > longest) {
+			longest = sentences[pos].size();
+		}
+		pos++;
+	}
+	for (int i = 0; i < longest; i++) {
+		for (int j = pos - 1; j >= 0; j--) {
+			if (sentences[j].size() > i) {
+				cout << sentences[j][i];
+			}
+		}
+		cout << endl;
+	}
+}
