@@ -1,0 +1,36 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<string>
+#include<map>
+#include<math.h>
+#include<sstream>
+using namespace std;
+
+int main() {
+	int t;
+	int count = 0;
+	while (cin >> t,count+=1) {
+		int number;
+		vector<int> nums;
+		for (int i = 0; i < t; i++) {
+			cin >> number;
+			nums.push_back(number);
+		}
+		int k = 0;
+		for (int i = 1; i < nums.size(); i++) {
+			if (nums[i - 1] + nums[i - 1] == nums[i]) {
+				k = 1;
+			}
+			else {
+				k = 0;
+			}
+		}
+		if (k) {
+			cout << "Case #" << count << " : It is a B2-Sequence." << endl;
+		}
+		else {
+			cout << "Case #" << count << " : It is not a B2-Sequence." << endl;
+		}
+	}
+}
