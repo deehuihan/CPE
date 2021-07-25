@@ -1,0 +1,43 @@
+#include <iostream>
+#include <set>
+#include<vector>
+#include<string>
+#include<sstream>
+#include<algorithm>
+#include<map>
+using namespace std;
+
+int main()
+{
+	string input, word = "0123456789ABCDEFGHIJKLMNOPQRSTUVWSYZabcdefghijklmnopqrstuvwsyz";
+	int val[62] = { 0 }, i, j;
+	for (int i = 0; i < 62; i++) {
+		val[i] = i;
+	}
+	while (getline(cin, input)) {
+		int sum = 0, max = 0;
+		for (int i = 0; i < input.length(); i++) {
+			for (int j = 0; j < 62; j++) {
+				if (input[i] == word[j]) {
+					sum = sum + val[j];
+					if (val[j] > max) {
+						max = val[j];
+					}
+				}
+			}
+		}
+		for (i = max; i < 62; i++) {
+			if (sum == 0) {
+				cout << "2" << endl;
+				break;
+			}
+			if (sum % i == 0) {
+				cout << i + 1 << endl;
+				break;
+			}
+		}
+		if (i == 62) {
+			cout << "such number is impossible" << endl;
+		}
+	}
+}
