@@ -1,0 +1,33 @@
+#include <iostream>
+#include <set>
+#include<vector>
+#include<string>
+#include<sstream>
+#include<algorithm>
+#include<map>
+using namespace std;
+
+int main()
+{
+	int n, m;
+	while (cin >> n >> m) {
+		if (n <= 1 || m <= 1) {
+			cout << "Boring!" << endl;
+			continue;
+		}
+		vector<int> nums;
+		for (int i = n ; i == 1 || (i > 1 && i % m == 0); i /= m) {
+			nums.push_back(i);
+		}
+		int numsSize = nums.size();
+		if (numsSize == 0 || nums[numsSize - 1] != 1) {
+			cout << "Boring!" << endl;
+			continue;
+		}
+
+		for (auto i = nums.begin(); i != nums.end(); i++) {
+			cout << *i << " ";
+		}
+		cout << endl;
+	}
+}
