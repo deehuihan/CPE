@@ -1,0 +1,35 @@
+#include <iostream>
+#include <set>
+#include<vector>
+#include<string>
+#include<sstream>
+#include<algorithm>
+#include<map>
+using namespace std;
+
+int main()
+{
+	int t;
+	cin >> t;
+	while (t--) {
+		int day[101] = { 0 }, h[101] = { 0 };
+		int n, p;
+		cin >> n >> p;
+		for (int i = 0; i < p; i++) {
+			cin >> h[i];
+			for (int j = h[i]; j <= n; j += h[i]) {
+				day[j] = 1;
+			}
+		}
+		int count = 0;
+		for (int i = 0; i <= n; i++) {
+			if (i % 7 == 0 || i % 7 == 6) {
+				continue;
+			}
+			if (day[i] == 1) {
+				count++;
+			}
+		}
+		cout << count << endl;
+	}
+}
