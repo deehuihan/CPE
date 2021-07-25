@@ -1,0 +1,31 @@
+#include <iostream>
+#include <set>
+#include<vector>
+#include<string>
+#include<sstream>
+#include<algorithm>
+#include<map>
+using namespace std;
+
+int main()
+{
+	int number;
+	while (cin >> number) {
+		if (number == 0) {
+			break;
+		}
+		string word = "";
+		int count = 0;
+		while (number > 0) {
+			if (number % 2 == 1) {
+				word = "1" + word;
+				count++;
+			}
+			else {
+				word = "0" + word;
+			}
+			number = number / 2;
+		}
+		cout << "The parity of "<< word <<" is "<<count<< " (mod 2)." << endl;
+	}
+}
