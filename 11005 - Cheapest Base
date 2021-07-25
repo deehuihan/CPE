@@ -1,0 +1,51 @@
+#include <iostream>
+#include <set>
+#include<vector>
+#include<string>
+#include<sstream>
+#include<algorithm>
+#include<map>
+using namespace std;
+
+int main()
+{
+	int t, a = 1;
+	cin >> t;
+	while (t--) {
+		cout << "Case " << a << ":" << endl;
+		int cost[36];
+		for (int i = 0; i < 36; i++) {
+			cin >> cost[i];
+		}
+		int n;
+		cin >> n;
+		while (n--) {
+			int number;
+			cin >> number;
+			cout << "Cheapest base(s) for number " << number << ": ";
+			int min = 0, de[37] = { 0 };	
+			for (int i = 2; i < 37; i++) {
+				int temp = number;
+				int sum = 0;
+				while (temp > 0) {
+					int re = temp % i;
+					sum = sum + cost[re];
+					temp = temp / i;
+				}
+				if (min == 0 || sum <= min) {
+					de[i] = sum;
+					min = sum;
+				}
+			}
+			for (int i = 2; i < 37; i++) {
+				if (de[i] == min) {
+					cout << " " << i;
+				}
+			}
+			
+			cout << endl;
+			
+		}
+		a++;
+	}
+}
