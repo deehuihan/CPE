@@ -1,0 +1,44 @@
+#include <iostream>
+#include <set>
+#include<vector>
+#include<string>
+#include<sstream>
+#include<algorithm>
+#include<map>
+using namespace std;
+
+int gcd(int i, int j) {
+	if (j == 0) {
+		return i;
+	}
+	return gcd(j, i % j);
+}
+
+int binaryStringToInt(string s) {
+	int number = 0;
+	for (int i = 0; i < s.length(); i++) {
+		number <<=1;
+		number += s[i] - '0';
+	}
+	return number;
+}
+int main()
+{
+	int t;
+	cin >> t;
+	int a = 1;
+	while (t--) {
+		string s1, s2;
+		cin >> s1 >> s2;
+		int num1 = binaryStringToInt(s1), num2 = binaryStringToInt(s2);
+		cout << "Pair #" << a << ": ";
+		if (gcd(num1, num2) == 1) {
+			cout << "Love is not all you need!" << endl;
+		}
+		else {
+			cout << "All you need is love!" << endl;
+		}
+		a++;
+
+	}
+}
