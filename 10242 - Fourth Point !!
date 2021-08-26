@@ -1,0 +1,29 @@
+#include <iostream>
+#include <string>
+#include <iomanip>
+#include <cmath>
+#include<sstream>
+using namespace std;
+
+int main()
+{
+	while (true) {
+		double x[4], y[4], ax = 0, ay = 0;
+		for (int i = 0; i < 4; i++) {
+			cin >> x[i] >> y[i];
+			ax += x[i];
+			ay += y[i];
+		}
+		for (int i = 0; i < 4; i++) {
+			for (int t = i + 1; t < 4; t++) {
+				if (x[i] == x[t] && y[i] == y[t]) {
+					cout << fixed << setprecision(3);
+					cout << ax - 3 * x[i] << " ";
+					cout << ay - 3 * y[i] << endl;
+				}
+			}
+
+		}
+	}
+	
+}
