@@ -1,0 +1,43 @@
+#include <iostream>
+#include <string>
+#include <iomanip>
+#include <cmath>
+#include<sstream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+int n, m;
+bool cmp(int i,int j) {
+	if (i % m != j % m) {
+		return i % m < j% m;
+	}
+	if ((i & 1) && (j & 1)) {
+		return i > j;
+	}
+	if (!(i & 1) && !(j & 1)) {
+		return i < j;
+	}
+	else {
+		return i & 1;
+	}
+}
+int main()
+{
+	while (cin >> n >> m) {
+		if (n == 0 && m == 0) {
+			cout << "0 0" << endl;
+			break;
+		}
+		int number;
+		vector<int> nums;
+		for (int i = 0; i < n; i++) {
+			cin >> number;
+			nums.push_back(number);
+		}
+		cout << n << " " << m << endl;
+		sort(nums.begin(), nums.end(), cmp);
+		for (auto i = nums.begin(); i != nums.end(); i++) {
+			cout << *i << endl;
+		}
+	}
+}
