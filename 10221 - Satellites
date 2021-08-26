@@ -1,0 +1,26 @@
+#include <iostream>
+#include <string>
+#include <iomanip>
+#include <cmath>
+#include<sstream>
+using namespace std;
+
+int main()
+{
+	double r = 6440,pi=3.14159265359, s, a;
+	string word;
+	while (cin >> s >> a >> word) {
+		if (word == "min") {
+			a = a / 60;
+		}
+		while (a >= 360) {
+			a = a - 360;
+		}
+		if (a > 180) {
+			a = 360 - a;
+		}
+		cout << fixed << setprecision(6);
+		cout << (s + r) * (a * pi / 180) << " ";
+		cout << (s + r) * sin(a / 2 * pi / 180) * 2 << endl;
+	}
+}
