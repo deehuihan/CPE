@@ -1,0 +1,20 @@
+#include <iostream>
+#include <string>
+#include <iomanip>
+#include <cmath>
+#include<sstream>
+using namespace std;
+
+int main()
+{
+	int t, c = 1;
+	cin >> t;
+	while (t--) {
+		int x1, x2, y1, y2;
+		cin >> x1 >> y1 >> x2 >> y2;
+		int count = 0;
+		count += (x2 + y2 + x1 + y1 + 1) * (x2 + y2 - x1 - y1) / 2;
+		count += (x2 - x1);
+		cout << "Case " << c << ": " << count << endl;
+	}
+}
