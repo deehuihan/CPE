@@ -1,36 +1,38 @@
 #include<iostream>
 #include<vector>
-#include<algorithm>
-#include<string>
-#include<map>
-#include<math.h>
-#include<sstream>
 using namespace std;
-
 int main() {
-	int t;
-	int count = 0;
-	while (cin >> t,count+=1) {
+	int n, t = 1;
+	while (cin >> n) {
 		int number;
-		vector<int> nums;
-		for (int i = 0; i < t; i++) {
+		vector<int> b, check;
+		int k = 1;
+		for (int i = 0; i < n; i++) {
 			cin >> number;
-			nums.push_back(number);
-		}
-		int k = 0;
-		for (int i = 1; i < nums.size(); i++) {
-			if (nums[i - 1] + nums[i - 1] == nums[i]) {
-				k = 1;
-			}
-			else {
+			b.push_back(number);
+			if (b[i] < 0) {
 				k = 0;
 			}
 		}
+		for (int i = 0; i < 20001; i++) {
+			check.push_back(0);
+		}
+		for (int i = 0; i < n; i++) {
+			for (int j = i; j < n; j++) {
+				if (check[b[i] + b[j]] || b[i] > b[j]) {
+					k = 0;
+				}
+				else {
+					check[b[i] + b[j]] = 1;
+				}
+			}
+		}
 		if (k) {
-			cout << "Case #" << count << " : It is a B2-Sequence." << endl;
+			cout << "Case #" << t << ": It is a B2-Sequence." << endl;
 		}
 		else {
-			cout << "Case #" << count << " : It is not a B2-Sequence." << endl;
+			cout << "Case #" << t << ": It is not a B2-Sequence." << endl;
 		}
+		t++;
 	}
 }
