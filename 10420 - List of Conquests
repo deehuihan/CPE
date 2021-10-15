@@ -1,23 +1,20 @@
 #include<iostream>
-#include<vector>
-#include<algorithm>
-#include<string>
-#include<map>
 #include<math.h>
-#include<sstream>
+#include<map>
 using namespace std;
-
-int main() {
+int main(){
 	int t;
-	cin >> t;
-	map<string, int> record;
-	string country, temp;
-	for (int i = 0; i < t; i++) {
-		cin >> country;
-		getline(cin, temp);
-		record[country]++;
+	cin>>t;
+	string word,blank;
+	getline(cin,word);
+	map<string,int> mp;
+	while(t--){
+		cin>>word;
+		mp[word]++;
+		getline(cin,blank);
 	}
-	for (auto itr = record.begin(); itr != record.end(); itr++) {
-		cout << itr->first << " " << itr->second << endl;
+	map<string,int>::iterator i;
+	for(i = mp.begin(); i!= mp.end();i++){
+		cout<<i->first<<" "<<i->second<<endl;
 	}
 }
