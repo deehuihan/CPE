@@ -1,33 +1,28 @@
 #include<iostream>
-#include<vector>
-#include<algorithm>
-#include<string>
-#include<map>
 #include<math.h>
-#include<sstream>
 using namespace std;
 
-int main() {
-	string s1;
-	while (getline(cin, s1)) {
-		if (s1 == "0") {
+int main(){
+	string a;
+	while(cin>>a){
+		if(a=="0"){
 			break;
 		}
-		int even = 0, odd = 0, answer = 0;
-		for (int i = 0; i < s1.length(); i++) {
-			if (i % 2 == 0) {
-				odd += s1[i] - '0';
+		int odd=0,even=0,ans=0;
+		for(int i=0;i<a.length();i++){
+			if(i%2==0){
+				odd+=a[i]-'0';
 			}
-			if (i % 2 == 1) {
-				even += s1[i] - '0';
+			else{
+				even+=a[i]-'0';
 			}
 		}
-		answer = abs(even - odd);
-		if (answer % 11 == 0) {
-			cout << s1 << " is a multiple of 11." << endl;
+		ans = abs(odd-even);
+		if(ans%11==0){
+			cout<<a<<" is a multiple of 11."<<endl;
 		}
-		else {
-			cout << s1 << " is not a multiple of 11." << endl;
+		else{
+			cout<<a<<" is not a multiple of 11."<<endl;
 		}
 	}
 }
