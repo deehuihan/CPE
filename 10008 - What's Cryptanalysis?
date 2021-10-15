@@ -1,24 +1,19 @@
 #include<iostream>
-#include<vector>
-#include<algorithm>
-#include<string>
-#include<map>
 #include<math.h>
-#include<sstream>
+#include<map>
 using namespace std;
-
-int main() {
-	int len = 0;
-	int input[256] = { 0 };
+int main(){
 	char c;
-	while (cin >> c) {
+	int len=0;
+	int input[256]={0};
+	while(cin>>c){
 		len++;
 		input[toupper(c)]++;
 	}
-	while (--len) {
-		for (c = 'A'; c <= 'Z'; c++) {
-			if (input[c] == len) {
-				cout << c << " " << input[c] << endl;
+	while(--len){
+		for(c='A';c<='Z';c++){
+			if(len == input[c]){
+				cout<<c<<" "<<input[c]<<endl;
 			}
 		}
 	}
