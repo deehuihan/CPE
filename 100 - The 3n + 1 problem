@@ -25,6 +25,7 @@ int cal(int n) {
 int main() {
 	int a, b;
 	while (cin >> a >> b) {
+		cout<<a<<" "<<b<<" ";
 		if (a > b) {
 			swap(a, b);
 		}
@@ -35,6 +36,6 @@ int main() {
 				max = answer;
 			}
 		}
-		cout << a << " " << b << " " << max << endl;
+		cout <<max << endl;
 	}
 }
