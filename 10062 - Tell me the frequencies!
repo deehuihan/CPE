@@ -2,19 +2,18 @@
 #include<string>
 using namespace std;
 int main(){
-    string s;
-    while(getline(cin,s)){
-        cout<<endl;
+    string word;
+    while(getline(cin,word)){
         int ascii[130]={0};
-        int max_num=0;
+        int max_number=0;
         int count=0;
-        for(int i=0;i<s.length();i++){
-            ascii[(int)s[i]]++;
-            max_num = max(max_num , (int)s[i]);
-            count = max(count , ascii[(int)s[i]]);
+        for(int i=0;i<word.length();i++){
+            ascii[(int)word[i]]++;
+            max_number = max(max_number , (int)word[i]);
+            count = max(count , ascii[(int)word[i]]);
         }
         for(int i=1;i<=count;i++){
-            for(int j=max_num;j>=0;j--){
+            for(int j=max_number;j>=0;j--){
                 if(ascii[j]==i){
                     cout<<j<<" "<<i<<endl;
                 }
