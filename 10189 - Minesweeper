@@ -1,32 +1,44 @@
 #include<iostream>
+#include<cstring>
 using namespace std;
+char a[105][105];
+int field[105][105];
+int dx[] = {1, -1, 0, 0, -1, 1, -1, 1};
+int dy[] = {0, 0, 1, -1, 1, 1, -1, -1};
 int main() {
 	int n, m, count = 1;
-	char word;
+	string s;
 	while (cin >> n >> m) {
 		if (n == 0 && m == 0) {
 			break;
 		}
-		getchar();
-		int field[100][100] = { 0 };
-		for (int i = 1; i <= n; i++) {
-			for (int j = 1; j <= m; j++) {
-				word = getchar();
-				if (word == '*') {
-					field[i][j] = -100;
-					for (int k = -1; k <= 1; k++) {
-						for (int l = -1; l <= 1; l++) {
-							field[i - k][j - l]++;
-						}
-					}
-				}
+		for (int i = 0; i < n; i++) {
+		    cin>>s;
+			for (int j = 0; j < m; j++) {
+				a[i][j]=s[j];
 			}
-			getchar();
+		}
+		memset(field,0,sizeof(field));
+		for(int i=0;i<n;i++){
+		    for(int j=0;j<m;j++){
+		        if(a[i][j]=='*'){
+		            field[i][j]=-1;
+		        }
+		        else{
+		            for(int k=0;k<8;k++){
+		                int x = i+dx[k];
+		                int y = j+dy[k];
+		                if(x>=0 && x<n && y>=0 && y <m && a[x][y]=='*'){
+		                    field[i][j]++;
+		                }
+		            }
+		        }
+		    }
 		}
 		cout << "Field #" << count << ":" << endl;
-		for (int i = 1; i <= n; i++) {
-			for (int j = 1; j <= m; j++) {
-				if (field[i][j] < 0) {
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				if (field[i][j] == -1) {
 					cout << "*";
 				}
 				else {
@@ -35,5 +47,6 @@ int main() {
 			}
 			cout << endl;
 		}
+		count++;
 	}
 }
