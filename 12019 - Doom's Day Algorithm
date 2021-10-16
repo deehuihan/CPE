@@ -9,7 +9,7 @@ using namespace std;
 
 int main() {
 	int day[] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
-	string month[] = { "Sunday","Monday","Tuesday","Wednesday","Thursday","Firday","Saturday" };
+	string month[] = { "Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday" };
 	int t;
 	cin >> t;
 	while (t--) {
