@@ -1,30 +1,26 @@
-#include <iostream>
-#include <set>
-#include<vector>
+#include<iostream>
 #include<string>
-#include<sstream>
-#include<algorithm>
-#include<map>
 using namespace std;
-typedef pair<char, int> Pair;
-bool cmp(Pair& p1, Pair& p2) {
-	return p1.second < p2.second;
-}
-int main()
-{
-	string s1;
-	while (getline(cin, s1)) {
-		map<char, int> record;
-		vector<Pair> num;
-		for (auto i = 0; i < s1.length(); i++) {
-			record[s1[i]]++;
-		}
-		for (auto i=record.begin(); i != record.end(); i++) {
-			num.push_back(make_pair(i->first, i->second));
-		}
-		sort(num.begin(), num.end(), cmp);
-		for (auto i = num.begin(); i != num.end(); i++) {
-			cout << int(i->first) << " " << i->second << endl;
-		}
-	}
+int main(){
+    string s;
+    while(getline(cin,s)){
+        cout<<endl;
+        int ascii[130]={0};
+        int ascii_min = 0;
+        int ascii_max=0;
+        int ascii_count=0;
+        for(int i=0;i<s.length();i++){
+            ascii[(int)s[i]]++;
+            ascii_min = min(ascii_min , (int)s[i]);
+            ascii_max = max(ascii_max , (int)s[i]);
+            ascii_count = max(ascii_count , ascii[(int)s[i]]);
+        }
+        for(int i=1;i<=ascii_count;i++){
+            for(int j=ascii_max;j>=0;j--){
+                if(ascii[j]==i){
+                    cout<<j<<" "<<i<<endl;
+                }
+            }
+        }
+    }
 }
