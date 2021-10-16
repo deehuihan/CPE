@@ -22,6 +22,9 @@ int main() {
 			if (sentences[j].size() > i) {
 				cout << sentences[j][i];
 			}
+			else{
+			    cout<<" ";
+			}
 		}
 		cout << endl;
 	}
