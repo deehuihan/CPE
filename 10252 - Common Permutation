@@ -1,31 +1,20 @@
 #include<iostream>
-#include<vector>
-#include<algorithm>
-#include<string>
-#include<map>
-#include<math.h>
-#include<sstream>
 using namespace std;
-
-int main() {
-	string s1, s2;
-	while (true) {
-		cin >> s1;
-		for (int i = 0; i < s1.length(); i++) {
-			s1[i] = tolower(s1[i]);
-		}
-		cin >> s2;
-		for (int i = 0; i < s2.length(); i++) {
-			s2[i] = tolower(s2[i]);
-		}
-		for (int i = s1.length(); i >= 0; i--) {
-			for (int j = s2.length(); j >= 0; j--) {
-				if (s1[i] == s2[j]) {
-					cout << s2[j];
-					break;
-				}
-			}
-		}
-		cout << endl;
-	}
+int main(){
+    string a,b;
+    while(cin>>a>>b){
+        int cnta[26]={0},cntb[26]={0};
+        for(int i=0;i<a.length();i++){
+            cnta[a[i]-'a']++;
+        }
+        for(int i=0;i<b.length();i++){
+            cntb[b[i]-'a']++;
+        }
+        for(int i=0;i<26;i++){
+            for(int j=min(cnta[i],cntb[i] );j>0;j--){
+                cout<<char('a'+i);
+            }
+        }
+        cout<<endl;
+    }
 }
