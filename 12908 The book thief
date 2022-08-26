@@ -1,0 +1,25 @@
+#include <iostream>
+#include<sstream>
+#include<vector>
+#include<string>
+using namespace std;
+int main()
+{
+	int input = 0;
+	while (true) {
+		cin >> input;
+		if (input == 0) {
+			break;
+		}
+		int sum = 0;
+		int page = 0;
+		for (int i = 0; i <= input+1; i++) {
+			sum += i;
+			if(sum>input){
+				page = sum - input;
+				cout << page << " " << i << endl;
+				break;
+			}
+		}
+	}
+}
