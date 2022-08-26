@@ -31,3 +31,52 @@ int main()
 		cout << endl;
 	}
 }
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+#include <iostream>
+#include<sstream>
+#include<vector>
+#include<string>
+using namespace std;
+int main()
+{
+    int number1, number2;
+            while (cin>>number1>>number2) {  
+                vector<int> num;
+                vector<int>::iterator i;
+                num.clear();
+                int nums = 0;
+                if (number1 <= 1 || number2 <= 1) {
+                    cout << "Boring!" << endl;
+                    continue;
+                }
+
+                num.push_back(number1);
+                nums = number1;
+                while (nums % number2 == 0) {
+                    nums = nums / number2;
+                    num.push_back(nums);
+                    if (nums == 1) {
+                        break;
+                    }
+                }
+                if (nums != 1) {
+                    cout << "Boring!" << endl;
+                    continue;
+                }
+                else {
+                    for (i = num.begin(); i != num.end(); i++) {
+                        cout << *i << " ";
+                    }
+                }
+                cout << endl;
+
+            }
+          
+        
+        
+}
+
