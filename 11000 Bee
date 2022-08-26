@@ -1,0 +1,27 @@
+
+#include <iostream>
+#include<sstream>
+#include<vector>
+#include<string>
+using namespace std;
+int main()
+{
+    int input;
+    while (cin >> input) {
+        if (input == -1) {
+            break;
+        }
+        if (input < 0) {
+            continue;
+        }
+        long long int male = 0;
+        long long int female = 1;
+        for (int i = 1; i <= input; i++) {
+            long long int temp = male;
+            male += female;
+            female = temp + 1;
+        }
+        cout << male << " " << male + female << endl;
+    }
+        
+}
