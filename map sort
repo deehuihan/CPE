@@ -1,0 +1,32 @@
+#include<iostream>
+#include<string>
+#include<vector>
+#include<iomanip>
+#include<algorithm>
+#include<map>
+using namespace std;
+
+typedef pair<char, int> Pair;
+
+bool cmp(pair<char, int>& a, pair<char, int>& b) {
+	return a.second < b.second;
+}
+
+int main() {
+	int t;
+	cin >> t;
+	vector<Pair> vec;
+	map<char, int> mp;
+	char c;
+	for (int i = 0; i < t; i++) {
+		cin >> c;
+		mp[c]++;
+	}
+	for (auto i = mp.begin(); i != mp.end(); i++) {
+		vec.push_back(make_pair(i->first, i->second));
+	}
+	sort(vec.begin(), vec.end(), cmp);
+	for (auto i = vec.begin(); i != vec.end(); i++) {
+		cout << i->first << " " << i->second << endl;
+	}
+}
