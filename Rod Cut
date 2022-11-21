@@ -1,0 +1,36 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+int max(int a, int b) {
+    return a > b ? a : b;
+}
+int cutRod(vector<int>& vec) {
+    int n = vec.size();
+    int val[500] = { 0 };
+    val[0] = 0;
+    for (int i = 1; i <= n; i++) {
+        int max_val = 0;
+        for (int j = 0; j < i; j++) {
+            max_val = max(max_val, vec[j] + val[i - j - 1]);
+        }
+        val[i] = max_val;
+    }
+    return val[n];
+}
+
+
+/* Driver program to test above functions */
+int main()
+{
+    int t;
+    int number;
+    vector<int>vec;
+    cin >> t;
+    for (int i = 0; i < t; i++) {
+        cin >> number;
+        vec.push_back(number);
+    }
+   
+    cout << "Maximum Obtainable Value is " << cutRod(vec);
+    return 0;
+}
