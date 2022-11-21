@@ -1,0 +1,27 @@
+#include <iostream>
+#include <algorithm>
+#include <cstring>
+using namespace std;
+int max(int a, int b) {
+    return a > b ? a : b;
+}
+int main() {
+    string s1, s2;
+    while (cin >> s1 >> s2) {
+        int length_s1 = s1.length();
+        int length_s2 = s2.length();
+        int dp[100][100] = { 0 };
+        for (int i = 1; i <= length_s1; i++) {
+            for (int j = 1; j <= length_s2; j++) {
+                if (s1[i - 1] == s2[j - 1]) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                }
+                else {
+                    dp[i][j] = max(dp[i][j - 1], dp[i - 1][j]);
+                }
+            }
+        }
+        cout << dp[length_s1][length_s2] << endl;
+    }
+    return 0;
+}
