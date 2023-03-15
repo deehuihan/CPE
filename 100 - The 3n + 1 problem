@@ -1,3 +1,7 @@
+#一開始設定一個function, 如果n != 1 的時候，一直進行while ，當 n==1 就break
+#輸入n 和 m以後要按大小排列
+#for i=n i<=m i++， 從n 到m 裡面，找出哪一個數字的 func(i) 是最大的，取最大值 max, 然後print
+
 #include<iostream>
 #include<vector>
 #include<algorithm>
