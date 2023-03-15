@@ -1,3 +1,10 @@
+#先對vector 進行sort
+#偶數，1 2 6 7
+#2 和 6 都算是 nums[mid]/2, 所以要對照 2 和 6 在vector裡面出現多少次, total +=1, diff就是 abs(2-6) +1
+#奇數， 1 2 6 7 8
+#6 就是 nums[mid], total就是看vector出現多少次 6 , diff的話因為只會有1個6， 如果有三個6也一樣，都是 1，因為 abs(6-6) +1 =1
+
+
 #include <iostream>
 #include <set>
 #include<vector>
