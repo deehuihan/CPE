@@ -1,3 +1,8 @@
+#每一次輸入一個char,len 就會+ 一個，input[c] 是記錄char 出現的次數。
+#在輸入完char 以後, len就會是char的總數，因為題目要求從高往低的出現次數列印，所以用len--，如果char總數目是50,就會慢慢減
+#用for char c 是因為在input[] 裡面用的是 input[A], input[B] ....,所以用 char A to char Z 來判斷input[], len == input[c]是因為題目要求
+#要求：要根據 A B C D E F... , 次數從高往低排序
+
 #include<string>
 #include<vector>
 #include<iomanip>
