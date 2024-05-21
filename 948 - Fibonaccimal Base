@@ -24,11 +24,11 @@ int main()
 		int flag = 0;
 		for (int j = 38; j >= 0; j--) {
 			if (number / fib[j] == 1) {
-				cout << "1";
+				cout << "1"; //output "1"
 				number %= fib[j];
-				flag = 1;
+				flag = 1; //有了“1“之後才可以output "0"
 			}
-			else if (flag == 1) {
+			else if (flag == 1) {  //輸入了1之後如果沒有 number/fib[i]的情況就一直跑0.
 				cout << "0";
 			}
 		}
