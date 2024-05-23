@@ -1,0 +1,49 @@
+/******************************************************************************
+
+Welcome to GDB Online.
+  GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
+  C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, COBOL, HTML, CSS, JS
+  Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+    
+    vector<int> vec;
+    for(int i=2;i<=12;i++){
+        bool prime=true;
+        for(int j=2;j<=i/2;j++){
+            if(i%j==0){
+                prime=false;
+            }
+        }
+        if(prime){
+            vec.push_back(i);
+        }
+    }
+    // for(int i=0;i<vec.size();i++){
+    //     cout<<vec[i]<<" ";
+    // }
+    cout<<endl;
+    int n;
+    while(cin>>n){
+        if(n==0){
+            break;
+        }
+        int count=0;
+        for(int i=0;vec[i]<=n;i++){
+            int sum=0;
+            for(int j=i;sum<=n;j++){
+                sum+=vec[j];
+                if(sum==n){
+                    count++;
+                    break;
+                }
+            }
+        }
+        cout<<count<<endl;
+    }
+}
