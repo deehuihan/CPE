@@ -11,6 +11,7 @@ Code, Compile, Run and Debug online from anywhere in world.
 using namespace std;
 int main()
 {
+    //記得要使用getline， 因為會有  "SAME AS 2" 這種string, 用cin 會出錯。
     int t;
     cin>>t;
     while(t--){
