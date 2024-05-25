@@ -11,7 +11,7 @@ Welcome to GDB Online.
 using namespace std;
 int main()
 {
-    //先創建好一個從 0~n 其中的prime number array，要記得 i和j =2 開始，同時 <=n 和 <=i/2
+    //先創建好一個從 0~n 其中的prime number array，要記得 i和j =2 開始，同時 <=n 和 <=i/2。 bool prime 要每一次新的數目的時候都 true
 //之後再用一個 for loop i 和 j 來看vec[j]一直連續加總多少會等於 n, 在 j 裡面使用 sum<=n 是因為 j=i 的話， j 會一直比之前還要大數目，如果這時候 sum已經是=n 
 //那就表示j再往後面一定比n還要大值，就可以排除了.
     vector<int> vec;
