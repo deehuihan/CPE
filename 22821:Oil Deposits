@@ -1,0 +1,51 @@
+/******************************************************************************
+
+Welcome to GDB Online.
+  GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
+  C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, COBOL, HTML, CSS, JS
+  Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <stdio.h>
+#include<iostream>
+#include<vector>
+using namespace std;
+char mp[105][105];
+int visited[105][105]={0};
+int r,c;
+void dfs(int i,int j){
+    if(i<0 || i>=r || j<0 || j>=c || visited[i][j]==1 || mp[i][j]=='*'){ //這個是要用“反”條件，如果是錯誤的條件就一直return，直到可行的條件就會執行下去
+        return;
+    }
+    visited[i][j]=1;
+    dfs(i-1,j-1);
+    dfs(i-1,j);
+    dfs(i-1,j+1);
+    dfs(i,j+1);
+    dfs(i+1,j+1);
+    dfs(i+1,j);
+    dfs(i+1,j-1);
+    dfs(i,j-1);
+}
+
+int main()
+{
+    while(cin>>r>>c && r>0 && c>0){
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                cin>>mp[i][j];
+                visited[i][j]=0;
+            }
+        }
+        int count=0;
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                if(mp[i][j]=='@' && visited[i][j]==0){
+                    dfs(i,j);  //要記得是 dfs() 不是 dfs[]
+                    count++;
+                }
+            }
+        }
+        cout<<count<<endl;
+    }
+}
