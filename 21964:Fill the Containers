@@ -1,0 +1,46 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main() {
+    int n, m;
+    while (cin >> n >> m) {
+        vector<int> vessel(n);
+        int sum = 0;
+        int maxVessel = 0;
+
+        for (int i = 0; i < n; i++) {
+            cin >> vessel[i];
+            sum += vessel[i];
+            if (vessel[i] > maxVessel) {
+                maxVessel = vessel[i];
+            }
+        }
+
+        int l = maxVessel, r = sum;
+        while (l < r) {
+            int mid = (l + r) / 2;
+            int count = 1; // 至少需要一个容器
+            int currentSum = 0;
+
+            for (int i = 0; i < n; i++) {
+                if (currentSum + vessel[i] > mid) {
+                    count++;
+                    currentSum = vessel[i];
+                } 
+                else {
+                    currentSum += vessel[i];
+                }
+            }
+
+            if (count > m) {
+                l = mid + 1;
+            } 
+            else {
+                r = mid;
+            }
+        }
+        cout << l << endl;
+    }
+    return 0;
+}
