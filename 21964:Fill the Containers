@@ -4,43 +4,50 @@ using namespace std;
 
 int main() {
     int n, m;
-    while (cin >> n >> m) {
+    while (cin >> n >> m) { // 读取传送带上的容器数量 n 和目标容器数量 m
         vector<int> vessel(n);
-        int sum = 0;
-        int maxVessel = 0;
+        int sum = 0; // 用于存储所有牛奶容器的总容量
+        int maxVessel = 0; // 用于存储单个牛奶容器的最大容量
 
+        // 读取每个牛奶容器的容量，同时计算总容量和最大单个容器容量
         for (int i = 0; i < n; i++) {
-            cin >> vessel[i];
-            sum += vessel[i];
+            cin >> vessel[i]; // 读取第 i 个牛奶容器的容量
+            sum += vessel[i]; // 计算总容量
             if (vessel[i] > maxVessel) {
-                maxVessel = vessel[i];
+                maxVessel = vessel[i]; // 更新最大单个牛奶容器的容量
             }
         }
 
-        int l = maxVessel, r = sum;
-        while (l < r) {
-            int mid = (l + r) / 2;
-            int count = 1; // 至少需要一个容器
-            int currentSum = 0;
+        // 二分查找的范围是从最大单个容器容量到总容量
+        int left = maxVessel, right = sum;
+        while (left < right) {
+            int mid = (left + right) / 2; // 计算中间值，尝试作为最大容器容量
+            int count = 1; // 容器计数器，初始值为1，表示至少需要一个容器
+            int currentSum = 0; // 当前容器已装牛奶的总容量
 
+            // 遍历所有牛奶容器，计算需要多少个容器
             for (int i = 0; i < n; i++) {
                 if (currentSum + vessel[i] > mid) {
+                    // 如果当前容器装不下第 i 个牛奶容器，增加一个新容器
                     count++;
-                    currentSum = vessel[i];
-                } 
-                else {
+                    currentSum = vessel[i]; // 新容器的初始容量为第 i 个牛奶容器的容量
+                } else {
+                    // 如果当前容器可以装下第 i 个牛奶容器，继续装入当前容器
                     currentSum += vessel[i];
                 }
             }
 
+            // 根据容器数量判断是否需要调整最大容量的范围
             if (count > m) {
-                l = mid + 1;
-            } 
-            else {
-                r = mid;
+                // 如果需要的容器数超过了 m，说明当前尝试的最大容量太小，增大范围
+                left = mid + 1;
+            } else {
+                // 如果需要的容器数不超过 m，说明当前尝试的最大容量可行，尝试更小的最大容量
+                right = mid;
             }
         }
-        cout << l << endl;
+        // 输出最小化后的最大容器容量
+        cout << left << endl;
     }
     return 0;
 }
