@@ -1,0 +1,26 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+int main(){
+
+    int coin[11]={5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000};
+    long long int dp[30005]={0};
+    dp[0]=1;
+    for(int i=0;i<11;i++){
+        for(int j=coin[i];j<=30000;j++){
+            dp[j] = dp[j] + dp[j-coin[i]]; //dp[該值-加入的零錢價值]
+        }
+    }
+    double input;
+    while(cin>>input){
+        if(input==0.00){
+            break;
+        }
+        int ans = static_cast<int>(input*100); //static_cast<int>(input * 100 + 0.5)：将浮点数金额 123.45 转换为整数 12345 。
+        cout<<fixed<<setprecision(2);
+        cout<<setw(6)<<input<<setw(17)<<dp[ans]<<endl;
+        
+    }
+    
+}
