@@ -1,0 +1,21 @@
+#include<iostream> // 包含输入输出库
+using namespace std; // 使用标准命名空间
+
+int main(){
+    int n; // 定义一个整数变量 n，用于存储区域数
+    while(cin >> n){ // 从标准输入读取区域数，直到文件结束
+        if(n == 0){ // 如果输入为0，退出循环，结束程序
+            break; // 退出循环
+        }
+        for(int i = 1; i < n; ++i){ // 从1开始迭代可能的 m 值，直到 n-1
+            int temp = 0; // 初始化 temp 变量，用于存储当前的位置
+            for(int j = 1; j < n; ++j){ // 模拟关闭区域的过程
+                temp = (temp + i) % j; // 计算下一个要关闭的区域
+            }
+            if(temp == 11){ // 检查第13个区域（索引12）是否是最后一个剩下的
+                cout << i << endl; // 输出满足条件的 m 值
+                break; // 找到正确的 m 后，跳出循环
+            }
+        }
+    }
+}
