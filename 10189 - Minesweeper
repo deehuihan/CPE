@@ -50,3 +50,74 @@ int main() {
 		count++;
 	}
 }
+
+
+
+##########################
+
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+char a[105][105];
+int field[105][105];
+bool visited[105][105];
+int dx[] = {1, -1, 0, 0, -1, 1, -1, 1};
+int dy[] = {0, 0, 1, -1, 1, 1, -1, -1};
+int n, m;
+
+void dfs(int i, int j) {
+    if (i < 0 || i >= n || j < 0 || j >= m || visited[i][j]) {
+        return;
+    }
+    visited[i][j] = true;
+    field[i][j] = 0;
+    for (int k = 0; k < 8; k++) {
+        int x = i + dx[k];
+        int y = j + dy[k];
+        if (x >= 0 && x < n && y >= 0 && y < m && a[x][y] == '*') {
+            field[i][j]++;
+        }
+    }
+}
+
+int main() {
+    int count = 1;
+    string s;
+    while (cin >> n >> m) {
+        if (n == 0 && m == 0) {
+            break;
+        }
+        for (int i = 0; i < n; i++) {
+            cin >> s;
+            for (int j = 0; j < m; j++) {
+                a[i][j] = s[j];
+                visited[i][j] = false; // 初始化訪問矩陣
+            }
+        }
+        memset(field, 0, sizeof(field));
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (!visited[i][j]) {
+                    dfs(i, j);
+                }
+            }
+        }
+        if (count > 1) {
+            cout << endl; // 每個場地之間的空行
+        }
+        cout << "Field #" << count << ":\n";
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (a[i][j] == '*') {
+                    cout << "*";
+                } else {
+                    cout << field[i][j];
+                }
+            }
+            cout << endl;
+        }
+        count++;
+    }
+    return 0;
+}
