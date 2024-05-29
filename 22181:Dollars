@@ -6,7 +6,7 @@ int main(){
 
     int coin[11]={5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000};
     long long int dp[30005]={0};
-    dp[0]=1;
+    dp[0]=1; //這很重要，一定要設定初始值
     for(int i=0;i<11;i++){
         for(int j=coin[i];j<=30000;j++){
             dp[j] = dp[j] + dp[j-coin[i]]; //dp[該值-加入的零錢價值]
