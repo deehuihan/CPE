@@ -1,0 +1,43 @@
+#include <iostream>
+#include <vector>
+#include <cstring>
+using namespace std;
+
+int main() {
+    int t; // 讀取測試案例數量
+    cin >> t;
+    while (t--) { // 迭代每個測試案例
+        string s;
+        cin >> s; // 讀取字串 s
+        int p = 0, q = 1; // 初始化 p 和 q，表示比較的兩個起始位置
+        int len = s.length(); // 獲取字串長度
+
+        // 主要的比較循環，直到 p 或 q 到達字串末尾
+        while (p < len && q < len) {
+            int i; // 用於循環比較的索引
+            // 比較從 p 和 q 開始的子字串
+            for (i = 0; i < len; i++) {
+                // 使用模運算確保索引在範圍內
+                if (s[(p + i) % len] != s[(q + i) % len]) {
+                    break; // 如果找到不同的字符，跳出循環
+                }
+            }
+            if (i == len) { // 如果成功比較了整個字串，表示找到了相同的旋轉
+                break;
+            }
+            // 根據字典序比較結果更新 p 或 q
+            if (s[(p + i) % len] > s[(q + i) % len]) {
+                p = p + i + 1; // 如果 p 開始的子字串大於 q，移動 p
+            } else {
+                q = q + i + 1; // 否則，移動 q
+            }
+            // 如果 p 和 q 相等，增量 q 以避免比較相同位置
+            if (p == q) {
+                q++;
+            }
+        }
+        // 輸出字典序最小旋轉的起始位置，索引從1開始
+        cout << min(p, q) + 1 << endl;
+    }
+    return 0;
+}
