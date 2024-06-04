@@ -1,0 +1,81 @@
+/******************************************************************************
+題目介紹：
+給定一個整數集合 S，找到最大的 d 使得 a + b + c = d，且 a, b, c, 和 d 是 S 中的不同元素。
+輸入：
+多組測試數據，每組測試數據以一個整數 n 開頭，表示集合 S 的元素數量。隨後是 n 個整數。當 n 為 0 時，表示輸入結束。
+輸出：
+對於每組測試數據，輸出一行 d，如果不存在符合條件的 d，則輸出 "No solution"。
+
+範例輸入：
+5
+2
+3
+5
+7
+12
+5
+2
+16
+64
+256
+1024
+0
+
+範例輸出：
+12
+No solution
+*******************************************************************************/
+
+#include <iostream>
+#include <algorithm>
+#include <vector>
+using namespace std;
+
+int main() {
+    int n;  // 用於存儲每組測試數據的元素數量
+    while (cin >> n) {
+        if (n == 0) {  // 當輸入為 0 時，結束輸入
+            break;
+        }
+        int number;  // 用於存儲每個讀取的數字
+        vector<int> vec;  // 用於存儲每組測試數據的元素
+
+        // 讀取每組測試數據的元素
+        for (int i = 0; i < n; i++) {
+            cin >> number;
+            vec.push_back(number);
+        }
+
+        // 將元素排序，以便進行比較
+        sort(vec.begin(), vec.end());
+
+        bool found = false;  // 標誌是否找到解
+
+        // 從最大元素開始檢查是否存在 a + b + c = d
+        for (int d = vec.size() - 1; d >= 0; d--) {
+            for (int a = 0; a < vec.size(); a++) {
+                for (int b = a + 1; b < vec.size(); b++) {
+                    for (int c = b + 1; c < vec.size(); c++) {
+                        // 檢查 a + b + c 是否等於 d 並且 a, b, c 與 d 是不同的元素
+                        if ((vec[d] == vec[a] + vec[b] + vec[c]) && a != d && b != d && c != d) {
+                            cout << vec[d] << endl;  // 輸出找到的 d
+                            found = true;  // 標誌設置為 true 表示找到解
+                            break;
+                        }
+                    }
+                    if (found) break;  // 如果找到解，跳出循環
+                }
+                if (found) break;  // 如果找到解，跳出循環
+            }
+            if (found) break;  // 如果找到解，跳出循環
+        }
+
+        // 如果沒有找到解，輸出 "No solution"
+        if (!found) {
+            cout << "No solution" << endl;
+        }
+
+        vec.clear();  // 清空向量以準備下一組測試數據
+    }
+    return 0;
+}
