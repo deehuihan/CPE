@@ -1,0 +1,56 @@
+#include <iostream>
+#include <vector>
+#include <cstdio>
+#include <string>
+#include <sstream>
+using namespace std;
+
+int main() {
+    int m; // 定義測試用例的數量
+    cin >> m; // 從標準輸入讀取測試用例數量
+    cin.ignore(); // 忽略緩衝區中的換行符
+    
+    // 遍歷每個測試用例
+    while (m--) {
+        string input; // 用於存儲每個測試用例的輸入行
+        getline(cin, input); // 從標準輸入讀取一整行輸入
+        vector<int> vec; // 用於存儲每個測試用例中的數字
+        stringstream ss; // 字符串流，用於解析輸入行
+        ss << input; // 將輸入行放入字符串流中
+        int number; // 用於存儲解析出的每個數字
+        int sum = 0; // 用於存儲所有數字的總和
+
+        // 從字符串流中解析數字並計算總和
+        while (ss >> number) {
+            vec.push_back(number); // 將數字添加到向量中
+            sum += number; // 將數字累加到總和中
+        }
+
+        // 如果總和是奇數，則不可能分成兩個和相等的子集
+        if (sum % 2 == 1) {
+            cout << "NO" << endl; // 輸出 "NO"
+            continue; // 跳過本次循環，進入下一個測試用例
+        }
+
+        // 動態規劃數組，用於記錄某些數字和是否可以達到
+        vector<bool> ans(sum + 5, false);
+        ans[0] = true; // 初始化：和為0是可以達到的
+
+        // 動態規劃過程
+        for (int i = 0; i < vec.size(); i++) { // 遍歷每個數字
+            for (int j = sum; j >= vec[i]; j--) { // 倒序遍歷，防止重複計算
+                if (ans[j - vec[i]]) { // 如果和 j-vec[i] 是可以達到的
+                    ans[j] = true; // 則和 j 也是可以達到的
+                }
+            }
+        }
+
+        // 如果和的一半可以達到，則可以分成兩個和相等的子集
+        if (ans[sum / 2] == true) {
+            cout << "YES" << endl; // 輸出 "YES"
+        } else {
+            cout << "NO" << endl; // 輸出 "NO"
+        }
+    }
+    return 0;
+}
