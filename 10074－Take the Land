@@ -1,63 +1,56 @@
-"""
 #include <iostream>
 #include <vector>
 #include <stack>
-#include <algorithm>
 using namespace std;
 
 int main() {
-    while (true) { // 不斷讀取測試用例，直到遇到0 0為止
-        int M, N;
-        cin >> M >> N; // 讀取行數和列數
-        if (M == 0 && N == 0) break; // 如果行數和列數均為0，則結束程式
-
-        vector<vector<int>> matrix(M, vector<int>(N)); // 定義一個 M x N 的矩陣
-        for (int i = 0; i < M; ++i) { // 讀取矩陣的每一行
-            for (int j = 0; j < N; ++j) { // 讀取矩陣的每一個元素
-                cin >> matrix[i][j];
+    int N, M;
+    while (cin >> N >> M && N != 0 && M != 0) {
+        int number;
+        vector<int> vec;
+        vector<vector<int>> mp;
+        //vector<vector<int>> mp(N, vector<int>(M));
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                cin>>number;
+                vec.push_back(number);
             }
+            mp.push_back(vec);
+            vec.clear();
         }
 
-        if (matrix.empty()) { // 如果矩陣為空，輸出0
-            cout << 0 << endl;
-            continue;
-        }
+        int maxArea = 0;
+        vector<int> height(M, 0);
 
-        int m = matrix.size(); // 獲取矩陣的行數
-        int n = matrix[0].size(); // 獲取矩陣的列數
-        vector<int> height(n, 0); // 定義高度陣列，高度為每一列連續0的數量
-        int maxArea = 0; // 最大矩形面積初始化為0
-
-        for (int i = 0; i < m; ++i) { // 遍歷每一行
-            for (int j = 0; j < n; ++j) { // 更新每一列的高度
-                if (matrix[i][j] == 0) {
-                    height[j]++; // 如果是0，高度加1
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                if (mp[i][j] == 0) {
+                    height[j]++;
                 } else {
-                    height[j] = 0; // 如果不是0，高度設為0
+                    height[j] = 0;
                 }
             }
 
-            // 使用單調棧計算當前行下方的直方圖能得到的最大矩形面積
-            stack<int> stk; // 定義單調棧
-            height.push_back(0); // 在高度陣列最後加入一個0，確保所有元素都會被處理
-            for (int j = 0; j < height.size(); ++j) { // 遍歷每一個高度
-                while (!stk.empty() && height[j] < height[stk.top()]) { // 當前高度小於棧頂高度時
-                    int h = height[stk.top()]; // 獲取棧頂高度
-                    stk.pop(); // 棧頂出棧
-                    int w; // 計算寬度
-                    if (stk.empty()) {
+            stack<int> stk;
+            height.push_back(0);
+            for (int j = 0; j < height.size(); j++) {
+                while (!stk.empty() && height[j] < height[stk.top()]) {
+                    int h = height[stk.top()];
+                    stk.pop();
+                    int w = 0;
+                    if(stk.empty()){
                         w = j;
-                    } else {
+                    }
+                    else{
                         w = j - stk.top() - 1;
                     }
-                    maxArea = max(maxArea, h * w); // 計算矩形面積並更新最大面積
+                    maxArea = max(maxArea, h * w);
                 }
-                stk.push(j); // 當前高度入棧
+                stk.push(j);
             }
-            height.pop_back(); // 移除最後加入的0
+            height.pop_back();
         }
 
-        cout << maxArea << endl; // 輸出最大矩形面積
+        cout << maxArea << endl;
     }
-    return 0;
 }
