@@ -1,0 +1,76 @@
+#include <iostream>
+#include <stack>
+#include <string>
+#include <cctype>
+using namespace std;
+
+int main() {
+    string line;
+    while (getline(cin, line)) {
+        if (line == ".") {
+            break;
+        }
+
+        stack<int> stk;
+        bool illegal = false;
+        int i = line.size() - 1;
+
+        while (i>=0) {
+            if (isspace(line[i])) {
+                i--;
+                continue;
+            }
+
+            if (isdigit(line[i])) {
+                int num = 0;
+                int base = 1;
+                while (i >= 0 && isdigit(line[i])) {
+                    num += (line[i] - '0') * base;
+                    base *= 10;
+                    i--;
+                }
+                stk.push(num);
+            } else if (line[i] == '+' || line[i] == '-' || line[i] == '*' || line[i] == '/' || line[i] == '%') {
+                if (stk.size() < 2) {
+                    illegal = true;
+                    break;
+                }
+                int num1 = stk.top(); 
+                stk.pop();
+                int num2 = stk.top(); 
+                stk.pop();
+                if (line[i] == '+') {
+                    stk.push(num1 + num2);
+                } else if (line[i] == '-') {
+                    stk.push(num1 - num2);
+                } else if (line[i] == '*') {
+                    stk.push(num1 * num2);
+                } else if (line[i] == '/') {
+                    if (num2 == 0) {
+                        illegal = true;
+                        break;
+                    }
+                    stk.push(num1 / num2);
+                } else if (line[i] == '%') {
+                    if (num2 == 0) {
+                        illegal = true;
+                        break;
+                    }
+                    stk.push(num1 % num2);
+                }
+                i--;
+            } else {
+                illegal = true;
+                break;
+            }
+        }
+
+        if (illegal || stk.size() != 1) {
+            cout << "illegal" << endl;
+        } else {
+            cout << stk.top() << endl;
+        }
+    }
+
+    return 0;
+}
