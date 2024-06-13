@@ -1,76 +1,85 @@
-#include <iostream>
+/******************************************************************************
+
+Welcome to GDB Online.
+  GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
+  C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, COBOL, HTML, CSS, JS
+  Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <stdio.h>
 #include <stack>
 #include <string>
-#include <cctype>
+#include <vector>
+#include <iostream>
 using namespace std;
-
-int main() {
-    string line;
-    while (getline(cin, line)) {
-        if (line == ".") {
+int main()
+{
+    string sentence;
+    while(getline(cin,sentence)){
+        if(sentence=="."){
             break;
         }
-
         stack<int> stk;
-        bool illegal = false;
-        int i = line.size() - 1;
-
-        while (i>=0) {
-            if (isspace(line[i])) {
-                i--;
+        int len = sentence.size()-1;
+        bool illegal=false;
+        while(len>=0){
+            int num=0;
+            int base=1;
+            if(illegal==true){
+                break;
+            }
+            else if(isblank(sentence[len])){
+                len--;
                 continue;
             }
-
-            if (isdigit(line[i])) {
-                int num = 0;
-                int base = 1;
-                while (i >= 0 && isdigit(line[i])) {
-                    num += (line[i] - '0') * base;
-                    base *= 10;
-                    i--;
+            else if(len>0 && isdigit(sentence[len])){
+                while(len>0 && isdigit(sentence[len])){
+                    num = num + (sentence[len]-'0')*base;
+                    base = base *10;
+                    len--;
                 }
                 stk.push(num);
-            } else if (line[i] == '+' || line[i] == '-' || line[i] == '*' || line[i] == '/' || line[i] == '%') {
-                if (stk.size() < 2) {
+            }
+            else if(sentence[len]=='+' || sentence[len]=='-'|| sentence[len]=='*'|| sentence[len]=='/'|| sentence[len]=='%'){
+                if(stk.size()<2){
                     illegal = true;
                     break;
                 }
-                int num1 = stk.top(); 
+                int num1 = stk.top();
                 stk.pop();
-                int num2 = stk.top(); 
+                int num2 = stk.top();
                 stk.pop();
-                if (line[i] == '+') {
-                    stk.push(num1 + num2);
-                } else if (line[i] == '-') {
-                    stk.push(num1 - num2);
-                } else if (line[i] == '*') {
-                    stk.push(num1 * num2);
-                } else if (line[i] == '/') {
-                    if (num2 == 0) {
-                        illegal = true;
-                        break;
-                    }
-                    stk.push(num1 / num2);
-                } else if (line[i] == '%') {
-                    if (num2 == 0) {
-                        illegal = true;
-                        break;
-                    }
-                    stk.push(num1 % num2);
+                if(sentence[len]=='+'){
+                    stk.push(num1+num2);
                 }
-                i--;
-            } else {
-                illegal = true;
-                break;
+                else if(sentence[len]=='-'){
+                    stk.push(num1-num2);
+                }
+                else if(sentence[len]=='*'){
+                    stk.push(num1*num2);
+                }
+                else if(sentence[len]=='/'){
+                    if(num2==0){
+                        illegal = true;
+                        break;
+                    }
+                    stk.push(num1/num2);
+                }
+                else if(sentence[len]=='%'){
+                    if(num2==0){
+                        illegal = true;
+                        break;
+                    }
+                    stk.push(num1%num2);
+                }
+                len--;
             }
         }
-
-        if (illegal || stk.size() != 1) {
-            cout << "illegal" << endl;
-        } else {
-            cout << stk.top() << endl;
+        if(illegal==true){
+            cout<<"illegal"<<endl;
+        }
+        else{
+            cout<<stk.top()<<endl;
         }
     }
-
-    return 0;
 }
