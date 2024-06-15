@@ -1,0 +1,89 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main()
+{
+    int number;
+    while(cin >> number) {  // 不斷讀取輸入直到 EOF
+        vector<int> result(1, 1);  // 初始化結果為1 (即1的階乘)
+        
+        // 計算階乘
+        for(int i = 2; i <= number; i++) {
+            int carry = 0;
+            for(int j = 0; j < result.size(); j++) {
+                int num = result[j] * i + carry;
+                result[j] = num % 10;  // 保存個位數到對應位置
+                carry = num / 10;  // 進位數
+            }
+            // 將剩餘進位數加入結果中
+            while(carry > 0) {
+                result.push_back(carry % 10);
+                carry = carry / 10;
+            }
+        }
+        
+        // 一般 ！ 的答案
+        for(int i = result.size() - 1; i >= 0; i--) {
+            cout << result[i];
+        }
+        cout << endl;
+        
+        // 題目要的答案
+        int sum = 0;
+        for(int i = 0; i < result.size(); i++) {
+            sum += result[i];
+        }
+        cout << sum << endl;
+    }
+    
+    return 0;
+}
+
+
+if input = 5:
+
+從 2 到 5 逐步計算階乘，並追蹤每一位的變化：
+
+當 i = 2：
+
+j = 0：
+result[0] = 1
+num = result[0] * 2 + carry = 1 * 2 + 0 = 2
+result[0] = prod % 10 = 2 % 10 = 2
+carry = num / 10 = 2 / 10 = 0
+結果向量更新為 [2]。
+當 i = 3：
+
+j = 0：
+result[0] = 2
+num = result[0] * 3 + carry = 2 * 3 + 0 = 6
+result[0] = prod % 10 = 6 % 10 = 6
+carry = num / 10 = 6 / 10 = 0
+結果向量更新為 [6]。
+當 i = 4：
+
+j = 0：
+result[0] = 6
+num = result[0] * 4 + carry = 6 * 4 + 0 = 24
+result[0] = num % 10 = 24 % 10 = 4
+carry = num / 10 = 24 / 10 = 2
+carry = 2，將 2 插入結果向量的下一位：
+result.push_back(2 % 10) = result.push_back(2) = [4, 2]
+結果向量更新為 [4, 2]（即 24）。
+當 i = 5：
+
+j = 0：
+result[0] = 4
+num = result[0] * 5 + carry = 4 * 5 + 0 = 20
+result[0] = num % 10 = 20 % 10 = 0
+carry = num / 10 = 20 / 10 = 2
+j = 1：
+result[1] = 2
+num = result[1] * 5 + carry = 2 * 5 + 2 = 12
+result[1] = num % 10 = 12 % 10 = 2
+carry = num / 10 = 12 / 10 = 1
+carry = 1，將 1 插入結果向量的下一位：
+result.push_back(1 % 10) = result.push_back(1) = [0, 2, 1]
+結果向量更新為 [0, 2, 1]（即 120）。
+
