@@ -1,54 +1,61 @@
-#include<iostream>
-#include<map>
-#include<vector>
-#include<string>
+#include <iostream>
+#include <vector>
+#include <cstdio>
+#include <string>
+#include <sstream>
+#include <map>
 using namespace std;
-int main() {
-	map<char, vector<int>> mp;
-	mp['c'] = { 0,0,1,1,1,0,0,1,1,1,1 };
-	mp['d'] = { 0,0,1,1,1,0,0,1,1,1,0 };
-	mp['e'] = { 0,0,1,1,1,0,0,1,1,0,0 };
-	mp['f'] = { 0,0,1,1,1,0,0,1,0,0,0 };
-	mp['g'] = { 0,0,1,1,1,0,0,0,0,0,0 };
-	mp['a'] = { 0,0,1,1,0,0,0,0,0,0,0 };
-	mp['b'] = { 0,0,1,0,0,0,0,0,0,0,0 };
-	mp['C'] = { 0,0,0,1, 0, 0, 0, 0, 0, 0, 0 };
-	mp['D'] = { 0,1,1,1, 1, 0, 0, 1, 1, 1, 0 };
-	mp['E'] = { 0,1,1,1, 1, 0, 0, 1, 1, 0, 0 };
-	mp['F'] = { 0,1,1,1, 1, 0, 0, 1, 0, 0, 0 };
-	mp['G'] = { 0,1,1,1, 1, 0, 0, 0, 0, 0, 0 };
-	mp['A'] = { 0,1,1,1, 0, 0, 0, 0, 0, 0, 0 };
-	mp['B'] = { 0,1,1,0, 0, 0, 0, 0, 0, 0, 0 };
-	
-	
-	int t;
-	cin >> t;
-	string word;
-	getline(cin, word);
-	while (t--) {
-		getline(cin, word);
-		int finger[11] = { 0 };
-		int status[11] = { 0 };
-		for (int i = 0; i < word.length(); i++) {
-			for (int j = 1; j <= 10; j++) {
-				if (mp[word[i]][j]) {
-					if (status[j]) {
-						continue;
-					}
-					else {
-						finger[j]++;
-						status[j] = 1;
-					}
-				}
-				else {
-					status[j] = 0;
-				}
-			}
-		}
-		for (int i = 1; i <= 10; i++) {
-			cout << finger[i] << " ";
-		}
-		cout << endl;
-	}
 
+int field[105][105]; // 用於儲存地雷計數
+char mp[105][105];   // 用於儲存地雷地圖
+int n, m;            // 地圖的行數和列數
+
+int main() {
+    map<char, vector<int>> mp; // 定義音符與指法的對應關係
+    mp['c'] = {0,0,1,1,1,0,0,1,1,1,1};
+    mp['d'] = {0,0,1,1,1,0,0,1,1,1,0};
+    mp['e'] = {0,0,1,1,1,0,0,1,1,0,0};
+    mp['f'] = {0,0,1,1,1,0,0,1,0,0,0};
+    mp['g'] = {0,0,1,1,1,0,0,0,0,0,0};
+    mp['a'] = {0,0,1,1,0,0,0,0,0,0,0};
+    mp['b'] = {0,0,1,0,0,0,0,0,0,0,0};
+    mp['C'] = {0,0,0,1,0,0,0,0,0,0,0};
+    mp['D'] = {0,1,1,1,1,0,0,1,1,1,0};
+    mp['E'] = {0,1,1,1,1,0,0,1,1,0,0};
+    mp['F'] = {0,1,1,1,1,0,0,1,0,0,0};
+    mp['G'] = {0,1,1,1,1,0,0,0,0,0,0};
+    mp['A'] = {0,1,1,1,0,0,0,0,0,0,0};
+    mp['B'] = {0,1,1,0,0,0,0,0,0,0,0};
+
+    int t; // 測試案例數量
+    cin >> t;
+    
+    while (t--) { // 依次處理每個測試案例
+        string word;
+        cin >> word; // 輸入一個字串
+        int finger[11] = {0}; // 記錄每個手指按壓次數
+        int status[11] = {0}; // 記錄每個手指當前狀態
+        
+        for (int i = 0; i < word.length(); i++) {
+            for (int j = 0; j < 11; j++) {
+                if (mp[word[i]][j] == 1) {
+                    if (status[j] == 1) {
+                        continue; // 如果手指已經按下，則繼續
+                    } else {
+                        finger[j]++; // 手指按壓次數加一
+                        status[j] = 1; // 更新手指狀態為按下
+                    }
+                } else {
+                    status[j] = 0; // 如果當前音符不需要按下該手指，則設為0
+                }
+            }
+        }
+        
+        for (int i = 1; i < 11; i++) {
+            cout << finger[i] << " "; // 輸出每個手指的按壓次數
+        }
+        cout << endl;
+    }
+
+    return 0;
 }
