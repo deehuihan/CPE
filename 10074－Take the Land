@@ -9,7 +9,6 @@ int main() {
         int number;
         vector<int> vec;
         vector<vector<int>> mp;
-        //vector<vector<int>> mp(N, vector<int>(M));
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
                 cin>>number;
