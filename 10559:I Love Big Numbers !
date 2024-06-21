@@ -6,17 +6,23 @@ int main()
 {
     int number;
     while(cin >> number) {  // 不斷讀取輸入直到 EOF
-        vector<int> result(1, 1);  // 初始化結果為1 (即1的階乘)
+        vector<int> result(1, 1);  // 初始化結果為1 (即1的階乘) 也就是讓 result[0] = 1，這時候result這個array的大小只有 result[0]=1 一個
         
         // 計算階乘
-        for(int i = 2; i <= number; i++) {
+        for(int i = 1; i <= number; i++) {
             int carry = 0;
             for(int j = 0; j < result.size(); j++) {
+                // num 的部分是記錄當前數字 result[j] * 下一個數字 i 的時候 + carry 的結果
                 int num = result[j] * i + carry;
+
+                // result = num % 10 是記錄 num 的個位數，十或之後的交給 carry
                 result[j] = num % 10;  // 保存個位數到對應位置
+
+                // carry 是記錄 <9 的num 情況，如果 num>9 就是 11 12 13 以外， carry = num/10 = 1 ，如果 result[0] 之後還有 result[1] 那麼carry 就會加入在 num 裡面
                 carry = num / 10;  // 進位數
             }
-            // 將剩餘進位數加入結果中
+            
+            // 當運算完 result 的所有後，如果 carry 還是 >0, 表示計算到的最後的 num 還是 大於9 ,這時候就要進位到 result裡面，假設 4! 的時候會拿到 24, 所以進入到array result[0] = 4, result[1] = 2
             while(carry > 0) {
                 result.push_back(carry % 10);
                 carry = carry / 10;
