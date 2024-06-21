@@ -1,3 +1,6 @@
+//result 是現在階層的答案 例如 4! result是 [4,2] 24， 5! result是[0,2,1] 120
+//所以一開始需要先放入 result[0] = 1,因為 0!= 1, 0! * 1 , 1! * 2, 2! * 3  , 4! * 5 以此類推。
+
 #include <iostream>
 #include <vector>
 using namespace std;
