@@ -10,14 +10,14 @@ int n, m;
 bool cmp(int i, int j) {
     if (i % m != j % m) {
         return i % m < j % m;  // 先按餘數排序
-    }
-    if ((i & 1) && (j & 1)) {
-        return i > j;  // 如果兩個都是奇數，則較大的奇數排在前面
-    }
-    if (!(i & 1) && !(j & 1)) {
-        return i < j;  // 如果兩個都是偶數，則較小的偶數排在前面
     } else {
-        return i & 1;  // 如果一個是奇數一個是偶數，則奇數排在前面
+        if ((i % 2 == 1 && j % 2 == 0) || (i % 2 == 0 && j % 2 == 1)) {
+            return i % 2 == 1;  // 奇數排在前面
+        } else if (i % 2 == 1 && j % 2 == 1) {
+            return i > j;  // 兩個都是奇數，較大的奇數排在前面
+        } else if (i % 2 == 0 && j % 2 == 0) {
+            return i < j;  // 兩個都是偶數，較小的偶數排在前面
+        }
     }
 }
 int main()
