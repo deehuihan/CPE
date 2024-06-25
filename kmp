@@ -1,0 +1,61 @@
+/******************************************************************************
+
+Welcome to GDB Online.
+  GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
+  C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, COBOL, HTML, CSS, JS
+  Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <stdio.h>
+#include <iostream>
+using namespace std;
+
+vector<int> build_next(string pattern){
+    vector<int>next(pattern.size(),0);
+    int i=1;
+    int pattern_len=0;
+    while(i<pattern.length()){
+        if(pattern[pattern_len]==pattern[i]){
+            pattern_len++;
+            next[i]=pattern_len;
+        }
+        else{
+            if(pattern[pattern_len]!=pattern[i]){
+                pattern_len = next[pattern_len-1];
+            }
+            else{
+                next[i]=0;
+            }
+        }
+        i++;
+    }
+    return next;
+}
+
+void kmp(string sentence, string pattern){
+    vector<int>next;
+    next = build_next(pattern);
+    int i=0,j=0;
+    while(i<sentence.length()){
+        if(sentence[i] == pattern[j]){ //同樣的時候共同前進
+            i++;
+            j++;
+        }
+        else if(sentence[i]!=pattern[j]){
+            next[j] = next[j-1];
+        }
+        else{ //第一個匹配就失敗
+            i++;
+        }
+        if(j==pattern.length()){ //表示走到pattern 的最後，所以是都匹配成功
+            return i-j;
+        }
+    }
+    return -1; //都沒有匹配成功
+}
+int main()
+{
+    printf("Hello World");
+
+    return 0;
+}
