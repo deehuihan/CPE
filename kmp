@@ -1,61 +1,60 @@
-/******************************************************************************
-
-Welcome to GDB Online.
-  GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
-  C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, COBOL, HTML, CSS, JS
-  Code, Compile, Run and Debug online from anywhere in world.
-
-*******************************************************************************/
-#include <stdio.h>
 #include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
 using namespace std;
 
-vector<int> build_next(string pattern){
-    vector<int>next(pattern.size(),0);
-    int i=1;
-    int pattern_len=0;
-    while(i<pattern.length()){
-        if(pattern[pattern_len]==pattern[i]){
+// 构建 KMP 算法的 next 数组
+vector<int> build_next(string pattern) {
+    vector<int> next(pattern.size(), 0);
+    int i = 1;
+    int pattern_len = 0;
+    while (i < pattern.size()) {
+        if (pattern[i] == pattern[pattern_len]) {
             pattern_len++;
-            next[i]=pattern_len;
-        }
-        else{
-            if(pattern[pattern_len]!=pattern[i]){
-                pattern_len = next[pattern_len-1];
+            next[i] = pattern_len;
+            i++;
+        } else {
+            if (pattern_len != 0) {
+                pattern_len = next[pattern_len - 1];
+            } else {
+                next[i] = 0;
+                i++;
             }
-            else{
-                next[i]=0;
-            }
         }
-        i++;
     }
     return next;
 }
 
-void kmp(string sentence, string pattern){
-    vector<int>next;
-    next = build_next(pattern);
-    int i=0,j=0;
-    while(i<sentence.length()){
-        if(sentence[i] == pattern[j]){ //同樣的時候共同前進
+// 使用 KMP 算法在文本中查找模式字符串
+int kmp(string sentence, string pattern) {
+    vector<int> next = build_next(pattern);
+    int i = 0, j = 0;
+    while (i < sentence.size()) {
+        if (sentence[i] == pattern[j]) {
             i++;
             j++;
         }
-        else if(sentence[i]!=pattern[j]){
-            next[j] = next[j-1];
-        }
-        else{ //第一個匹配就失敗
-            i++;
-        }
-        if(j==pattern.length()){ //表示走到pattern 的最後，所以是都匹配成功
-            return i-j;
+        if (j == pattern.size()) {
+            return j;  // 返回匹配的长度
+        } else if (i < sentence.size() && sentence[i] != pattern[j]) {
+            if (j != 0) {
+                j = next[j - 1];
+            } else {
+                i++;
+            }
         }
     }
-    return -1; //都沒有匹配成功
+    return j;  // 返回最长匹配的长度
 }
-int main()
-{
-    printf("Hello World");
-
+int main() {
+    string sentence, pattern;
+    while (cin >> sentence) {
+        pattern = sentence;
+        reverse(pattern.begin(), pattern.end());
+        int match_len = kmp(sentence, pattern);
+        cout << sentence + pattern.substr(match_len) << endl;
+    }
     return 0;
 }
