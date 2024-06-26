@@ -11,14 +11,14 @@ vector<int> build_next(string pattern) {
     int i = 1;
     int pattern_len = 0;
     while (i < pattern.size()) {
-        if (pattern[i] == pattern[pattern_len]) {
+        if (pattern[i] == pattern[pattern_len]) {  //當匹配的時候
             pattern_len++;
             next[i] = pattern_len;
             i++;
         } else {
-            if (pattern_len != 0) {
+            if (pattern_len != 0) { //當不匹配，而且pattern_len != 0， 所以 pattern可以回退回去
                 pattern_len = next[pattern_len - 1];
-            } else {
+            } else {  //當pattern_len=0，而且pattern[i]!=pattern[pattern_len]，這時候只能給next[i]=0，然後i++ 繼續往前探索。
                 next[i] = 0;
                 i++;
             }
@@ -36,14 +36,15 @@ int kmp(string sentence, string pattern) {
             i++;
             j++;
         }
-        if (j == pattern.size()) {
+        else if (j > 0) {    //當 sentence[i] != pattern[j] ，但是 j>0，所以表示 j 可以回退回去。
+            j = next[j - 1];
+        }  
+         else { //當i=0, sentence[i]!=pattern[j]，這時候沒辦法，一定要 i++，因為j一定要從頭算起，不能 skip j++;
+            i++;
+        }
+
+         if (j == pattern.length()) { //如果 j 跑完了整個 pattern， 表示匹配了所有 pattern的文字，所以可以return j 這個長度
             return j;  // 返回匹配的长度
-        } else if (i < sentence.size() && sentence[i] != pattern[j]) {
-            if (j != 0) {
-                j = next[j - 1];
-            } else {
-                i++;
-            }
         }
     }
     return j;  // 返回最长匹配的长度
