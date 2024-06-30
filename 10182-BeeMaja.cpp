@@ -28,21 +28,21 @@ void solve()
                 return;
         }
 
-        for (int i = 0; i < v; i++) {
+        for (int i = 0; i < v; i++) { //第二個方向
             x--;
             n--;
             if(n == 1)
                 return;
         }
 
-        for (int i = 0; i < v; i++) {
+        for (int i = 0; i < v; i++) { //第三
             y--;
             n--;
             if(n == 1)
                 return;
         }
 
-        for (int i = 0; i < v; i++) {
+        for (int i = 0; i < v; i++) { //第四
             x++;
             y--;
             n--;
@@ -50,14 +50,14 @@ void solve()
                 return;
         }
 
-        for (int i = 0; i < v; i++) {
+        for (int i = 0; i < v; i++) { //第五
             x++;
             n--;
             if(n == 1)
                 return;
         }
 
-        for (int i = 0; i < v; i++) {
+        for (int i = 0; i < v; i++) { //第六
             y++;
             n--;
             if(n== 1)
