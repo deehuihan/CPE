@@ -1,11 +1,3 @@
-//
-//  10182 - Bee Maja.cpp
-//  Uva
-//
-//  Created by Alexander Faxå on 2012-03-05.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
-
 #include <iostream>
 int varx, n , x, y;
 
