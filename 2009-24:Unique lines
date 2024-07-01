@@ -1,0 +1,59 @@
+#include <iostream>
+#include <vector>
+#include <set>
+#include <tuple>
+#include <algorithm>
+
+using namespace std;
+
+// 計算最大公約數
+int gcd(int a, int b) {
+    while (b != 0) {
+        int t = b;
+        b = a % b;
+        a = t;
+    }
+    return a;
+}
+
+// 計算唯一直線數量
+int count_unique_lines(const vector<int>& x, const vector<int>& y) {
+    set<tuple<int, int, int>> unique_lines;
+    int n = x.size();
+    
+    for (int i = 0; i < n; ++i) {
+        for (int j = i + 1; j < n; ++j) {
+            int dx = x[j] - x[i];
+            int dy = y[j] - y[i];
+            int g = gcd(abs(dy), abs(dx));
+            dx /= g;
+            dy /= g;
+            // 保證方向一致
+            if (dx < 0 || (dx == 0 && dy < 0)) {
+                dx = -dx;
+                dy = -dy;
+            }
+            int c = dy * x[i] - dx * y[i];
+            unique_lines.insert(make_tuple(dx, dy, c));
+        }
+    }
+    
+    return unique_lines.size();
+}
+
+int main() {
+    int T;
+    cin >> T;
+
+    while (T--) {
+        int n;
+        cin >> n;
+        vector<int> x(n), y(n);
+        for (int i = 0; i < n; ++i) {
+            cin >> x[i] >> y[i];
+        }
+        cout << count_unique_lines(x, y) << endl;
+    }
+
+    return 0;
+}
