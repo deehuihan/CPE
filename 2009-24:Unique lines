@@ -1,59 +1,53 @@
 #include <iostream>
-#include <vector>
 #include <set>
 #include <tuple>
-#include <algorithm>
-
+#include <cmath> // 包含 abs 函数的库
 using namespace std;
 
-// 計算最大公約數
-int gcd(int a, int b) {
-    while (b != 0) {
-        int t = b;
-        b = a % b;
-        a = t;
+// 计算两个数的最大公约数
+int gcd(int i, int j) {
+    if (j == 0) {
+        return i;
     }
-    return a;
-}
-
-// 計算唯一直線數量
-int count_unique_lines(const vector<int>& x, const vector<int>& y) {
-    set<tuple<int, int, int>> unique_lines;
-    int n = x.size();
-    
-    for (int i = 0; i < n; ++i) {
-        for (int j = i + 1; j < n; ++j) {
-            int dx = x[j] - x[i];
-            int dy = y[j] - y[i];
-            int g = gcd(abs(dy), abs(dx));
-            dx /= g;
-            dy /= g;
-            // 保證方向一致
-            if (dx < 0 || (dx == 0 && dy < 0)) {
-                dx = -dx;
-                dy = -dy;
-            }
-            int c = dy * x[i] - dx * y[i];
-            unique_lines.insert(make_tuple(dx, dy, c));
-        }
-    }
-    
-    return unique_lines.size();
+    return gcd(j, i % j);
 }
 
 int main() {
-    int T;
-    cin >> T;
-
-    while (T--) {
+    int t;
+    cin >> t; // 读取测试用例数
+    while (t--) {
         int n;
-        cin >> n;
-        vector<int> x(n), y(n);
-        for (int i = 0; i < n; ++i) {
-            cin >> x[i] >> y[i];
+        int x[105] = {0};
+        int y[105] = {0};
+        cin >> n; // 读取点的数量
+        for (int i = 0; i < n; i++) {
+            cin >> x[i] >> y[i]; // 读取每个点的坐标
         }
-        cout << count_unique_lines(x, y) << endl;
+        set<tuple<int, int, int>> unique_lines; // 用于存储唯一的直线
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                int dx = x[j] - x[i]; // 计算 x 坐标的差值
+                int dy = y[j] - y[i]; // 计算 y 坐标的差值
+                int g = gcd(abs(dx), abs(dy)); // 计算 dx 和 dy 的最大公约数
+                dx /= g; // 通过 gcd 标准化 dx
+                dy /= g; // 通过 gcd 标准化 dy
+                // 保证方向一致，避免相同直线的不同表示
+                if (dx < 0 || (dx == 0 && dy < 0)) { //就像 (3,2) (1,3) 和 (1,3) (3,2)， 只需要確定 x 是正的，y 就會跟著一樣，方向就會一樣，才不會重複記錄。
+                    dx = -dx;
+                    dy = -dy;
+                }
+                // 计算直线方程的常数项 c
+                //直線方程， Ax + By + C = 0
+                //A = dy, B = -dx
+                // 方程式 dy*x + dx*y + C = 0
+                // C 常數 = dy*x - dx*y
+                int c = dy * x[i] - dx * y[i]; 
+                // 将直线的参数 (dx, dy, c) 存入集合，保证唯一性
+                unique_lines.insert(make_tuple(dx, dy, c));
+            }
+        }
+        // 输出唯一直线的数量
+        cout << unique_lines.size() << endl;
     }
-
     return 0;
 }
