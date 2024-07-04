@@ -1,0 +1,68 @@
+
+// 不能直接用 gcd, 會time exceed
+
+// 輸入 input 後，找出 0 -> input 的prime number，讓後放在vector
+// 先存好擁有 0 -> input 的vector後
+// 跑一個for loop，對應每一個 prime number
+// 這時候要找的是，能夠整除 input 得prime number
+// 例如 30 的話，0 -> 30 得質數有 2 3 5 7 11 13 17 ...
+// 找出可以整除 30 的 prime， 所以有 2 3 5。
+// 2 3 5 也就是質因數
+// 接下來用一個 number 記錄 input，同時一個 result 記錄input
+// number 的作用是要用來消除 2 3 5 質因數的，result用來儲存答案
+// 所以result不能一直更新，要依靠 number
+// if(number%vec[i]==0) 表示 找到質因數
+// 是質因數的話就讓result做euler function， result = result/vec[i]; , result = result*(vec[i]-1);
+// 然後 number 這時候這時候就要被 質因數 vec[i] 消除，所以用 while(number%vec[i]) number/=vec[i]
+// 一直重複計算 result, 同時 number 進行消除，直到把 質數 裡面的 質因數 都跑完一遍。
+// 也要設下一種情況，如果一開始的 input 輸入就是 prime number, 3 5 7 11 這種
+// 那它就不可能拿到 質因數
+// 所以採取 if(number>1)
+// 直接用 result = result/number, result = result*(number-1)
+// 最後把 result print出來，就會是這個題目的結果了
+
+
+#include <stdio.h>
+#include <iostream>
+#include <vector>
+using namespace std;
+int main()
+{
+    int n;
+    while(cin>>n){
+        vector<int> vec;
+        for(int i=2;i<=n;i++){
+            bool prime=true;
+            for(int j=2;j*j<=i;j++){
+                if(i%j==0){
+                    prime=false;
+                }
+            }
+            if(prime==true){
+                vec.push_back(i);
+            }
+        }
+        int result = n; //累積尤拉結果，所以跟number要分開，為了記下答案的
+        int number = n; //這個是用來讓number 消除 質因數， 例如 30 的質因數是 2 3 5。
+        for(int i=0;i<vec.size();i++){
+            int currentPrime = vec[i];
+            if(number%currentPrime==0){
+                result /= currentPrime;
+                result *= currentPrime-1;
+            }
+            while(number%currentPrime==0){ //假設input 30 , 質因數 2 3 5， 一開始vec[i]=2, 所以要消除 2 這個數字
+                number = number/currentPrime;
+            } 
+        }
+        if(number>1){ //這個部分是由於 number 本身就是一個質因數 
+        //假設 n 是 7, number = 7 質數
+        //所以就不會有 7 的質因數，所以用 result 乘上number
+        //如果是 n=30 , number=30 的情況有質因數就不會到這個 if(number>1) function
+            result = result / number;
+            result = result * (number-1);
+        }
+        cout<<result<<endl;
+    }
+
+    return 0;
+}
