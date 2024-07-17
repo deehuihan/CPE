@@ -1,78 +1,106 @@
 /******************************************************************************
+思考的方式為
+1. 輸入有號碼、operator、space ，所以要判斷 isdigit, isoperator, isspace
+2. 從右到左把所有input的內容讀一遍，所以 right = sentence.size()-1 , while(right) 這部分要採用 while(right>=0) ，因為while(right>0)的話會沒辦法讀到左邊第一個內容。
+3. 右邊開始，先判斷是不是 "."，如是就 break.
+4. 如果右邊開始第一個內容不是 int 而是 operator，也是 illegal ->    + * 234 56 / 77 * 12 / 77 12 /
+5. 輸入 input 和判斷 "." 之後，就開始放初始值
+6. 初始值有 bool illegal（用在判斷是不是遇到illegal），int right 是 sentence最右邊的位置，sentence.size() 會是0 -> size, 所以用sentence.size()-1 在 array 才合適。
+7. 還有最重要的 stack<int> stk 初始值。用來記錄數字。當遇到 operator 的時候，如果 stk.size()<2 個數字的時候，就會直接顯示 illegal
+8. 開始用 while(right>=0) 來進行。
+9. 當 sentencen[right] == "." 就break，結束程式碼，不會跑出 "illegal".
+10. 不是 "." 的時候，就開始做正事。
+11. 如果遇到 isspace, 就 right-- 然後continue 繼續執行
+12. 如果遇到 isdigit, 這時候需要技巧把後面的數字往回計算。
+13. 用 base = 1 和 num = 0, 假設遇到的int 是 25, 遇到 5 的時候不確定前面還有沒有數字， num = num + (sentence[right]-'0')*base， 就可以拿到 num = 5.
+14. 接著 right--,同時 base *10
+15. while(isdigit(sentence{right}))， num = 5 + (sentence[right]-'0') * base = 5 + (2)*10 = 25， stk.push(num). 記錄起來。
+16. 當遇到 operator 的時候，要判斷 stk 是不是 > 2 size。
+17. 如果不是的話就 illegal = true。同時 break 到外圈，因為不用繼續執行了。
+18. 這時候會回到 while(right>=0) 下面的那個 if(illegal==true) 部分，判斷illegal為true 就break, 去到外層 getline(cin,sentence) 的判斷式，if(illegal==true) cout<<"illegal"<<endl;
+19. 如果 stk.size>2 , 這時候需要先把 stk.top 記錄下來，num1 = stk.top() , stk.pop(), num2 = stk.top(), stk.pop();
+20. 檢查現在 sentence[right] 是什麼 operator， + - * / % 都需要判斷。
+21. 把 num1和num2 的執行operator push 到 stk 裡面， stk.push(num1+num2)
+22. 如果 num2 是 0 的時候，在 / 和 % 會出現bug， 這時候可以判定為 illegal， if(num2==0) illegal= true , break。 不進行 stk.push(num1/num2) 或 stk.push(num1%num2) 動作
+23. 做完 operator 動作後也要 right --。
+23. 如果沒有遇到 illegal = true 和break。那 while(right>=0) 下面的判斷式 if(illegal==true) 就不會觸發，不會觸發的情況就會一直執行到 while(right>=0) 超出範圍。
+24. 最後用 if (illegal==true) cout illegal, else cout stk.top() 拿到最後答案。
 
-Welcome to GDB Online.
-  GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
-  C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, COBOL, HTML, CSS, JS
-  Code, Compile, Run and Debug online from anywhere in world.
-
+筆記
+1. 要用 getline(cin,sentence), cin 沒辦法記錄space
+2. right = sentence.size()-1, 記得 -1
+3. while(right>=0) 不是 while(right>0), 要讀過所有sentence[right] 內容。
+4. if(illegal == true) 要放在while(right>=0) 下面第一個，碰到 illegal true 就直接跳開，省時間。
+5. isspace /n 或 isblank /t /n /r 的時候要記得 right--;
+6. isdigit 的時候要用 base = 1, num = 0, num = num + (sentence[right]-'0')*base, 要記得 right--;
+7. isoperator 的時候 / 和 % 如果 num2 是 0 可以直接illegal = true 然後 break,省時間。同時要記得最後要 right--;
 *******************************************************************************/
-#include <stdio.h>
-#include <stack>
-#include <string>
-#include <vector>
 #include <iostream>
+#include <stack>
+#include<string>
 using namespace std;
 int main()
 {
     string sentence;
-    while(getline(cin,sentence)){
+    while(getline(cin,sentence)){ //記得要用getline, 用 cin的話會讀不到 space
         if(sentence=="."){
             break;
         }
         stack<int> stk;
-        int len = sentence.size()-1;
+        int right = sentence.size()-1;
         bool illegal=false;
-        while(len>=0){
+        while(right>=0){ /*這邊用 >= 是因為要讀完 sentence [] 的所有標點符號或是號碼 */
             int num=0;
             int base=1;
-            if(illegal==true){
+            if(illegal==true){ /* 放在第一個是因為當下面的 illegal=true的時候會break, 重新跑判斷式的時候檢測到 illegal是true就會直接離開，減少執行次數 */
                 break;
             }
-            else if(isblank(sentence[len])){
-                len--;
+            else if(isspace(sentence[right])){ /* isblank /n 或是 isspace /n /t 都可以 */
+                right--;
                 continue;
             }
-            else if(len>0 && isdigit(sentence[len])){
-                while(len>0 && isdigit(sentence[len])){
-                    num = num + (sentence[len]-'0')*base;
-                    base = base *10;
-                    len--;
+            else if(isdigit(sentence[right])){
+                while(isdigit(sentence[right])){
+                    num = num + (sentence[right]-'0')*base;
+                    base = base * 10;
+                    right--;
                 }
                 stk.push(num);
             }
-            else if(sentence[len]=='+' || sentence[len]=='-'|| sentence[len]=='*'|| sentence[len]=='/'|| sentence[len]=='%'){
+            else if(sentence[right]=='+' ||sentence[right]=='-' ||sentence[right]=='*' ||sentence[right]=='/' ||sentence[right]=='%' ){
                 if(stk.size()<2){
                     illegal = true;
                     break;
                 }
-                int num1 = stk.top();
+                int num1=stk.top();
                 stk.pop();
-                int num2 = stk.top();
+                int num2=stk.top();
                 stk.pop();
-                if(sentence[len]=='+'){
+                if(sentence[right]=='+'){
                     stk.push(num1+num2);
                 }
-                else if(sentence[len]=='-'){
+                else if(sentence[right]=='-'){
                     stk.push(num1-num2);
                 }
-                else if(sentence[len]=='*'){
+                else if(sentence[right]=='*'){
                     stk.push(num1*num2);
                 }
-                else if(sentence[len]=='/'){
+                else if(sentence[right]=='/'){
                     if(num2==0){
                         illegal = true;
                         break;
                     }
                     stk.push(num1/num2);
                 }
-                else if(sentence[len]=='%'){
+                else if(sentence[right]=='%'){
                     if(num2==0){
                         illegal = true;
                         break;
                     }
                     stk.push(num1%num2);
                 }
-                len--;
+                right--;
+                cout<<"x"<<endl;
             }
         }
         if(illegal==true){
