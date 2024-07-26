@@ -26,7 +26,7 @@ int main() {
                 break;
             }
             // 根據字典序比較結果更新 p 或 q
-            if (s[(p + i) % len] > s[(q + i) % len]) {
+            else if (s[(p + i) % len] > s[(q + i) % len]) {
                 p = p + i + 1; // 如果 p 開始的子字串大於 q，移動 p
             } else {
                 q = q + i + 1; // 否則，移動 q
