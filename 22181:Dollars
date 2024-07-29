@@ -1,3 +1,18 @@
+/*
+假設現在給coin[3] = {1,5,10}
+給 input = 10，能夠用多少方法湊出 10 這個input
+這時候要注意的事情是，你要先計算在 coin[i] ~ input， 也就是 1~10 數字中，當 1 的時候，有多少中組合可以拿到 1，
+所以這時候就先用 coin = 1 來計算，在使用 coin[0] = 1 的時候， 從 coin[i] ~ input 其中的所有數字，在使用 coin = 1 的時候能夠多少中組合
+也就是 dp[j] = dp[j] (這個指的是在這個 function 之前，已經有過哪些訂好 dp[10] 能拿到的combination) + dp[j-coin[i]];
+假設一開始 coin[0] = {1}
+在這個 coin 情況下, dp[1] ~ dp[10] 都會是 1, 因為用 coin 1 只會有一種的組合
+那現在 coin[1] = {5}
+所以 coin[1] 也就是 5, 5 ~ input 的 dp 都會有所改變，因為已知 coin 1 的時候大家 dp 是 1,
+但是 大於或是等於5 的數字多了一個 coin 5 選擇的時候，就會變成 dp[j] （之前的 dp 1) 再 + dp[j-5]， 所以 input 5 就是 dp[5] + dp[j-5] = 1 + 1 = 2
+當 dp[5] 拿到 2 的時候，在 coin[1]= 5 的時候，dp[5]~dp[9] 也會是 2 (用 coin 1 和 coin 5 組合起來）
+然後 dp[10] 的時候，就會是 dp[10] = dp[10] + dp[10-5] = dp[10] + dp[5] = 1 + 2 , 因為 dp[10】一開始就用 coin 1 測驗出一種combination， 
+加上現在 用 coin 5 的時候發現又可以多了新的組合，而且 dp[5] 被測出來可以用 2 種方式組合，所以 dp[10] + dp[5] = 1 + 2 = 3
+*/
 #include <iostream>
 #include <iomanip>
 using namespace std;
@@ -6,14 +21,10 @@ int main(){
 
     int coin[11]={5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000};
     long long int dp[30005]={0};
-    dp[0]=1; //這很重要，一定要設定初始值
+    dp[0]=1; // 當沒有coin的時候，只有一個方法，所有 dp[0] = 1
     for(int i=0;i<11;i++){
         for(int j=coin[i];j<=30000;j++){
-            dp[j] = dp[j] + dp[j-coin[i]]; //dp[該值-加入的零錢價值]
-            // dp[20] = dp[20] + dp[20-10]
-//dp[0] = 1;
-//dp[10] (能達到10的方式) = dp[10] (一個10 ) + dp[10-10] (dp[0]=1）, 所以dp 10 = 3
-// dp[20] (能達到20的方法) = dp[20] (一個20) + dp[20-10] (dp[10]=3 = 1+3 = 4
+            dp[j] = dp[j] + dp[j-coin[i]]; 
         }
     }
     double input;
@@ -21,7 +32,7 @@ int main(){
         if(input==0.00){
             break;
         }
-        int ans = static_cast<int>(input*100); //static_cast<int>(input * 100 + 0.5)：将浮点数金额 123.45 转换为整数 12345 。
+        int ans = input*100; 
         cout<<fixed<<setprecision(2);
         cout<<setw(6)<<input<<setw(17)<<dp[ans]<<endl;
         
